@@ -27,11 +27,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 //require_once plugin_dir_path( __FILE__ ) . 'email-confirmation.php';
 if(is_admin()){
-require_once plugin_dir_path( __FILE__ ) . 'setting.php';
-require_once plugin_dir_path( __FILE__ ) . 'settings-page.php';
-require_once plugin_dir_path( __FILE__ ) . 'setting-register.php';
-require_once plugin_dir_path( __FILE__ ) . 'setting-callback.php';
-require_once plugin_dir_path( __FILE__ ) . 'setting-validator.php';
+require_once plugin_dir_path( __FILE__ ) . 'settings/setting.php';
+require_once plugin_dir_path( __FILE__ ) . 'settings/settings-page.php';
+require_once plugin_dir_path( __FILE__ ) . 'settings/setting-register.php';
+require_once plugin_dir_path( __FILE__ ) . 'settings/setting-callback.php';
+require_once plugin_dir_path( __FILE__ ) . 'settings/setting-validator.php';
 require_once plugin_dir_path( __FILE__ ) . 'assign3-widget.php';
 }
 
@@ -71,4 +71,26 @@ function assign3_plugin_options_default() {
 
 }
 
+function loadMyBlock() {
+    wp_enqueue_script(
+      'Assign3 Plugin Block',
+      plugin_dir_url(__FILE__) . 'js/email-confirm-block.js',
+      array('wp-blocks','wp-editor'),
+      true
+    );
+  }
+     
+  add_action('enqueue_block_editor_assets', 'loadMyBlock');
+  
+  
+function wpse_add_front_end_clicker_script() {
+    wp_enqueue_script(
+        'clicker',
+        plugins_url('clicker.js', __FILE__),
+        array('jquery'),
+        filemtime( plugin_dir_path( __FILE__ ) . 'clicker.js' ),
+        true
+    );
+}
+add_action('init', 'wpse_add_front_end_clicker_script');
 ?>
